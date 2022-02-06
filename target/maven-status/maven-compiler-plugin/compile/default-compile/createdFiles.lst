@@ -1,0 +1,11 @@
+model\IngredientGenerator.class
+model\UserGenerator.class
+client\UserClient.class
+client\OrderClient.class
+model\IngredientResponse.class
+client\IngredientClient.class
+model\OrderGenerator.class
+model\Ingredient.class
+model\Order.class
+model\User.class
+client\RestAssuredClient.class
