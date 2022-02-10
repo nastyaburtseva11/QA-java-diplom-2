@@ -10,7 +10,6 @@ import org.junit.Test;
 import static model.UserGenerator.getRandomUser;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertTrue;
 
 public class UserUpdateTest {
 
@@ -27,7 +26,7 @@ public class UserUpdateTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         userClient.delete(accessToken);
     }
 
@@ -39,7 +38,7 @@ public class UserUpdateTest {
         int statusCode = response.extract().statusCode();
         boolean isUserLogin = response.extract().path("success");
         assertThat("Status code is not 200", statusCode, equalTo(200));
-        assertTrue("Password not updated", isUserLogin);
+        assertThat("Password not updated", isUserLogin, equalTo(true));
     }
 
     @Test
@@ -52,7 +51,7 @@ public class UserUpdateTest {
         String actualEmail = response.extract().path("user.email");
         String expectedEmail = user.getEmail().toLowerCase();
         assertThat("Status code is not 200", statusCode, equalTo(200));
-        assertTrue("User is not update", isUserUpdate);
+        assertThat("User is not update", isUserUpdate, equalTo(true));
         assertThat("Email not updated", actualEmail, equalTo(expectedEmail));
     }
 
@@ -66,9 +65,10 @@ public class UserUpdateTest {
         String actualName = response.extract().path("user.name");
         String expectedName = user.getName();
         assertThat("Status code is not 200", statusCode, equalTo(200));
-        assertTrue("User is not update", isUserUpdate);
+        assertThat("User is not update", isUserUpdate, equalTo(true));
         assertThat("Email not updated", actualName, equalTo(expectedName));
     }
+
     @Test
     @DisplayName("Check that a password can not update without token")
     public void checkUpdatePasswordWithOutToken() {

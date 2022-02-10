@@ -9,7 +9,6 @@ import org.junit.runners.Parameterized;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertFalse;
 
 @RunWith(Parameterized.class)
 public class UserCreateValidationTest {
@@ -18,14 +17,14 @@ public class UserCreateValidationTest {
     private final String password;
     private final String name;
 
-    public UserCreateValidationTest(String email, String password, String name){
+    public UserCreateValidationTest(String email, String password, String name) {
         this.email = email;
         this.password = password;
         this.name = name;
     }
 
     @Parameterized.Parameters
-    public static Object[][] getTestData(){
+    public static Object[][] getTestData() {
         return new Object[][]{
                 {UserGenerator.getUserEmail(), UserGenerator.getUserPassword(), null},
                 {UserGenerator.getUserEmail(), null, UserGenerator.getUserName()},
@@ -35,7 +34,7 @@ public class UserCreateValidationTest {
 
     @Test
     @DisplayName("Check that a courier without login/password/name can not be created")
-    public void checkInvalidRequestIsNotAllowed(){
+    public void checkInvalidRequestIsNotAllowed() {
 
         User user = new User(email, password, name);
         UserClient userClient = new UserClient();
@@ -44,7 +43,7 @@ public class UserCreateValidationTest {
         String errorMessage = response.extract().path("message");
         boolean isUserCreated = response.extract().path("success");
         assertThat("Status Code is not 403", statusCode, equalTo(403));
-        assertFalse("User is created", isUserCreated);
+        assertThat("User is created", isUserCreated, equalTo(false));
         assertThat("Error message is incorrect", errorMessage, equalTo("Email, password and name are required fields"));
     }
 }

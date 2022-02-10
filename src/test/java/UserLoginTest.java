@@ -8,9 +8,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static model.UserGenerator.getRandomUser;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertNotNull;
 
 public class UserLoginTest {
 
@@ -27,7 +29,7 @@ public class UserLoginTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         userClient.delete(accessToken);
     }
 
@@ -38,8 +40,8 @@ public class UserLoginTest {
         int statusCode = response.extract().statusCode();
         boolean isUserLogin = response.extract().path("success");
         assertThat("Status code is not 200", statusCode, equalTo(200));
-        assertNotNull("AccessToken is null", accessToken);
-        assertTrue("User is not login", isUserLogin);
+        assertThat("User is not login0", isUserLogin, equalTo(true));
+        assertThat("AccessToken is null", accessToken, is(notNullValue()));
     }
 
     @Test
@@ -50,7 +52,7 @@ public class UserLoginTest {
         int statusCode = response.extract().statusCode();
         boolean isUserLogin = response.extract().path("success");
         assertThat("Status code is not 401", statusCode, equalTo(401));
-        assertFalse("User is login", isUserLogin);
+        assertThat("User is login", isUserLogin, equalTo(false));
     }
 
     @Test
@@ -61,6 +63,6 @@ public class UserLoginTest {
         int statusCode = response.extract().statusCode();
         boolean isUserLogin = response.extract().path("success");
         assertThat("Status code is not 401", statusCode, equalTo(401));
-        assertFalse("User is login", isUserLogin);
+        assertThat("User is login", isUserLogin, equalTo(false));
     }
 }
